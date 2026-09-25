@@ -1,0 +1,27 @@
+name: Exercise 1 Plan
+
+on:
+  pull_request:
+    paths:
+      - exercise-1/**
+      - .github/workflows/exercise-1.yml
+      - .github/workflows/terraform-plan.yml
+  push:
+    branches:
+      - main
+    paths:
+      - exercise-1/**
+      - .github/workflows/exercise-1.yml
+      - .github/workflows/terraform-plan.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  plan:
+    uses: ./.github/workflows/terraform-plan.yml
+    with:
+      working_directory: exercise-1/terraform
+    secrets: inherit
