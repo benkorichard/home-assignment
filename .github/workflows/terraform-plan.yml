@@ -36,9 +36,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::947026095968:role/HomeAssignmentGitHubWorkflowDeployerRole #${{ secrets.AWS_DEPLOYER_ROLE }}
-          aws-region: eu-central-1
-          role-session-name: GitHubActions-${{ github.run_id }}
+          role-to-assume: ${{ secrets.AWS_DEPLOYER_ROLE }}
 
       - name: Initialize Terraform
         run: terraform init -backend=false
