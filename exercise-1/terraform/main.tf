@@ -2,7 +2,7 @@ module "vpc" {
 	source = "git::https://github.com/benkorichard/terraform-aws-vpc?ref=feat/init"
 
     vpc_cidr = "10.0.0.0/16"
-	name     = "application"
+	name     = "exercise-1"
 
 	public_subnet_cidrs = {
 		"eu-central-1a" = "10.0.1.0/24"
