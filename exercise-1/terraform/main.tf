@@ -1,5 +1,5 @@
 module "vpc" {
-  source = "git::https://github.com/benkorichard/terraform-aws-vpc?ref=feat/init"
+  source = "github.com/benkorichard/terraform-aws-vpc?ref=feat/init"
 
   for_each = local.vpcs
 
