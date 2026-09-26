@@ -1,7 +1,9 @@
 module "backup_bucket" {
-	source = "git::https://github.com/benkorichard/terraform-aws-s3-bucket?ref=feat/init"
+  source = "git::https://github.com/benkorichard/terraform-aws-s3-bucket?ref=feat/init"
 
-	bucket_name = "exercise-2"
-	retention_days     = 180
-	uploader_role_arn  = "arn:aws:iam::123456789012:role/backup_uploader"
+  for_each          = local.buckets
+
+  bucket_name       = each.value.bucket_name
+  retention_days    = each.value.retention_days
+  uploader_role_arn = each.value.uploader_role_arn
 }
