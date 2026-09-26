@@ -14,19 +14,3 @@ vpcs:
       - az: eu-central-1b
         cidr_block: 10.0.12.0/24
         type: private
-
-  - name: exercise-2
-    cidr_block: 10.1.0.0/16
-    subnets:
-      - az: eu-central-1a
-        cidr_block: 10.1.1.0/24
-        type: public
-      - az: eu-central-1b
-        cidr_block: 10.1.2.0/24
-        type: public
-      - az: eu-central-1a
-        cidr_block: 10.1.11.0/24
-        type: private
-      - az: eu-central-1b
-        cidr_block: 10.1.12.0/24
-        type: private
