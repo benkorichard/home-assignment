@@ -14,13 +14,13 @@ Docker is the recommended driver. On Windows, install WSL and Minikube in the WS
 From this directory, run the Bash launcher with the `deploy` action:
 
 ```sh
-./scripts/run.sh deploy
+./run.sh deploy
 ```
 
 From PowerShell on Windows, run:
 
 ```powershell
-wsl bash ./scripts/run.sh deploy
+wsl bash ./run.sh deploy
 ```
 
 The launcher starts Minikube if needed, builds the application image directly into the Minikube cluster, applies the Kubernetes manifests, waits for the Deployment, and forwards the Service to localhost. No external container registry is used. Keep the script running while using the endpoint; press Ctrl-C to stop port forwarding. The cluster and Deployment remain available.
@@ -43,11 +43,11 @@ Expected response:
 The Bash launcher can remove the Deployment and Service, then stop Minikube:
 
 ```sh
-./scripts/run.sh cleanup
+./run.sh cleanup
 ```
 
 From PowerShell on Windows, run:
 
 ```powershell
-wsl bash ./scripts/run.sh cleanup
+wsl bash ./run.sh cleanup
 ```

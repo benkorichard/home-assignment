@@ -1,7 +1,6 @@
 #!/bin/bash
 
-APP_SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-APP_BASE_DIR="$(cd -- "${APP_SCRIPT_DIR}/.." && pwd)"
+APP_BASE_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 APP_MANIFEST_DIR="${APP_BASE_DIR}/k8s"
 
 check_requirements() {
