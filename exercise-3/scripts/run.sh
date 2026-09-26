@@ -1,21 +1,58 @@
 #!/bin/bash
-set -e
 
-script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-exercise_dir="$(cd -- "$script_dir/.." && pwd)"
+APP_SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+APP_BASE_DIR="$(cd -- "${APP_SCRIPT_DIR}/.." && pwd)"
+APP_MANIFEST_DIR="${APP_BASE_DIR}/k8s"
 
-for command in minikube kubectl; do
-  if ! command -v "$command" >/dev/null 2>&1; then
-    printf 'Required command not found: %s\n' "$command" >&2
-    exit 1
-  fi
-done
+check_requirements() {
+        if ! command -v minikube >/dev/null 2>&1; then
+            printf 'Required command not found: minikube\n' >&2
+            exit 1
+        fi
+}
 
-cd "$exercise_dir"
-minikube start
-minikube image build --tag hello-world:local .
-kubectl apply -f k8s/hello-world.yaml
-kubectl rollout status deployment/hello-world --timeout=120s
+deploy() {
+    pushd "${APP_BASE_DIR}"
 
-printf 'Serving http://localhost:8080/hello-world; press Ctrl-C to stop port-forwarding.\n'
-kubectl port-forward --address 127.0.0.1 service/hello-world 8080:8080
+    minikube start
+    minikube image build --tag hello-world:local .
+    minikube kubectl -- apply -f "${APP_MANIFEST_DIR}/"
+    minikube kubectl -- rollout status deployment/hello-world --timeout=120s
+
+    printf '\nServing http://localhost:8080/hello-world \nPress Ctrl-C to stop port-forwarding.\n'
+    minikube kubectl -- port-forward --address 127.0.0.1 service/hello-world 8080:8080
+
+    popd
+}
+
+cleanup() {
+    pushd "${APP_BASE_DIR}"
+
+    minikube kubectl -- delete -f "${APP_MANIFEST_DIR}/"
+    minikube stop
+
+    popd
+}
+
+help() {
+    printf 'Usage: %s [deploy|cleanup|help]\n' "${0##*/}"
+}
+
+main() {
+    check_requirements
+
+    case "${1:-}" in
+        deploy)
+            deploy
+            ;;
+        cleanup)
+            cleanup
+            ;;
+        *)
+            help
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"
