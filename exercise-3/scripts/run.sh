@@ -5,10 +5,21 @@ APP_BASE_DIR="$(cd -- "${APP_SCRIPT_DIR}/.." && pwd)"
 APP_MANIFEST_DIR="${APP_BASE_DIR}/k8s"
 
 check_requirements() {
-        if ! command -v minikube >/dev/null 2>&1; then
-            printf 'Required command not found: minikube\n' >&2
+    for cmd in docker minikube; do
+        if ! command -v "${cmd}" >/dev/null 2>&1; then
+            printf 'Required command not found: %s\n' "${cmd}" >&2
             exit 1
         fi
+    done
+}
+
+cleanup() {
+    pushd "${APP_BASE_DIR}"
+
+    minikube kubectl -- delete -f "${APP_MANIFEST_DIR}/"
+    minikube stop
+
+    popd
 }
 
 deploy() {
@@ -21,15 +32,6 @@ deploy() {
 
     printf '\nServing http://localhost:8080/hello-world \nPress Ctrl-C to stop port-forwarding.\n'
     minikube kubectl -- port-forward --address 127.0.0.1 service/hello-world 8080:8080
-
-    popd
-}
-
-cleanup() {
-    pushd "${APP_BASE_DIR}"
-
-    minikube kubectl -- delete -f "${APP_MANIFEST_DIR}/"
-    minikube stop
 
     popd
 }
