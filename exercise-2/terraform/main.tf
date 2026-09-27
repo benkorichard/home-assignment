@@ -1,5 +1,5 @@
 module "backup_bucket" {
-  source = "github.com/benkorichard/terraform-aws-s3-bucket?ref=feat/init"
+  source = "github.com/benkorichard/terraform-aws-s3-bucket?ref=v0.1.0"
 
   for_each          = local.buckets
 
