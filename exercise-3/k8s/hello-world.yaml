@@ -14,12 +14,6 @@ spec:
       labels:
         app.kubernetes.io/name: hello-world
     spec:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 65532
-        runAsGroup: 65532
-        seccompProfile:
-          type: RuntimeDefault
       containers:
         - name: hello-world
           image: hello-world:local
