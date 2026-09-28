@@ -1,0 +1,16 @@
+vpcs:
+  - name: exercise-1
+    cidr_block: 10.0.0.0/16
+    subnets:
+      - az: eu-central-1a
+        cidr_block: 10.0.1.0/24
+        type: public
+      - az: eu-central-1b
+        cidr_block: 10.0.2.0/24
+        type: public
+      - az: eu-central-1a
+        cidr_block: 10.0.11.0/24
+        type: private
+      - az: eu-central-1b
+        cidr_block: 10.0.12.0/24
+        type: private
